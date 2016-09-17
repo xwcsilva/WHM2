@@ -7,8 +7,11 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    # retrieve order from URI route
+    order = params[:sort]
+    @movies = Movie.all.order order
   end
+    
 
   def new
     # default: render 'new' template
