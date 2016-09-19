@@ -12,7 +12,7 @@ class MoviesController < ApplicationController
     @ratings = params[:ratings]
     @ratings = (@ratings == nil) ? session_ratings        : @ratings.keys
     session_sort = (session[:sort] == nil) ? ""           : session[:sort]
-    session_sort = (params [:sort] == nil) ? session_sort : params[:sort]
+    session_sort = (params[:sort] == nil)  ? session_sort : params[:sort]
     session[:ratings] = JSON.generate @ratings
     session[:sort]    = session_sort
     @movies = (Movie.where rating: @ratings).order session_sort
