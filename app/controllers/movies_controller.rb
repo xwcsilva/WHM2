@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-
+  
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
@@ -7,11 +7,16 @@ class MoviesController < ApplicationController
   end
 
   def index
-    # retrieve order from URI route
-    order = params[:sort]
-    @movies = Movie.all.order order
+    @all_ratings = Movie.all_ratings
+    session_ratings = (session[:ratings] == nil) ? @all_ratings : (JSON.parse session[:ratings])
+    @ratings = params[:ratings]
+    @ratings = (@ratings == nil) ? session_ratings        : @ratings.keys
+    session_sort = (session[:sort] == nil) ? ""           : session[:sort]
+    session_sort = (params [:sort] == nil) ? session_sort : params[:sort]
+    session[:ratings] = JSON.generate @ratings
+    session[:sort]    = session_sort
+    @movies = (Movie.where rating: @ratings).order session_sort
   end
-    
 
   def new
     # default: render 'new' template

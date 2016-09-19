@@ -1,7 +1,11 @@
 require 'active_record'
 
 class Movie < ActiveRecord::Base
-  #self.abstract_class = true
+  #self.abstract_class = trues
+
+  def self.all_ratings
+  	self.distinct.pluck(:rating)
+  end
 end
 # starwars = Movie.create!(:title => 'Star Wars',
 # 	  :release_date => '25/4/1977', :rating => 'PG')
